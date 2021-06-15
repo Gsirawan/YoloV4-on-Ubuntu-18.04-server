@@ -28,3 +28,6 @@ I want to share what we did to make it easier for you :), Because Nvidia did not
   
 - Reboot your system, you have to.
   - ` $ sudo reboot `
+.
+.
+.
