@@ -1,18 +1,28 @@
-# YoloV4-with-Nvidia-Tesla-T4-on-Ubuntu-18.04-server
+# # YoloV4-with-Nvidia-Tesla-T4-on-Ubuntu-18.04-server
 Those steps for setup a YoloV4 with 2 Nvidia graphic cards (NVIDIA Tesla T4) on Ubuntu 18.04 server.
 
 Cuda setup were pain in the neck, more like a shitshow task to do. 
 We were 3 “IT professional” trying to make Yolov4 works on ubuntu server for one week (full time) and finally it has worked.
 I want to share what we did to make it easier for you :), Because Nvidia did not.
 
-#### I will gather the references of the steps in the end, and thanks for those out there sharing their knowledge and this what helped us make this machine works.
+#### I will gather the references of the steps, and thanks for those out there sharing their knowledge and this what helped us make this machine works.
 
-## Install Ubuntu:
+### YoloV4 requirements:
+* CMake >= 3.8
+* CUDA 10.0 (For GPU)
+* OpenCV >= 2.4 (For CPU and GPU)
+* cuDNN >= 7.0 for CUDA 10.0 (for GPU)
+* OpenMP (for CPU)
+* Other Dependencies: make, git, g++
+
+
+
+## 1- Install Ubuntu:
 - Clean up your old machine from the dust ^^.
-- install ubuntu 18.04 Server with the proper confugration for the server (access to ports and on...)
+- install ubuntu 18.04 Server with the proper configuration for the server (access to ports and on...)
 
-## install the necessary drivers:
-- always update your system befor any install:
+## 2- install the necessary drivers:
+- always update your system before any install:
   - `$ sudo apt update`
   - `$ sudo apt upgrade`
   
@@ -24,10 +34,60 @@ I want to share what we did to make it easier for you :), Because Nvidia did not
   
 - You will get a list of different drivers (Choose the recommended one or not).
   - If you don't want to choose the driver (wants the recommended ) : `$ sudo ubuntu-drivers autoinstall `
-  - In case you want some specific driver like the driver for nvidia and version 460 (on the list): `$ sudo apt install nvidia-driver-460`
+  - In case you want some specific driver like the driver for Nvidia and version 460 (on the list): `$ sudo apt install nvidia-driver-460`
   
 - Reboot your system, you have to.
   - ` $ sudo reboot `
-.
-.
-.
+- Check That GPUs are visible and the install has been successful.
+    - ` $ nvidia-smi `
+     ![driver](src/driver.png)
+
+**note: you will see the latest version of Cuda listed, just ignore this for now.**
+
+## 3- Install Cuda 10.0 and cuDNN 7.6
+Thanks to [Kacper](https://askubuntu.com/questions/1129483/install-nvidia-drivers-with-cuda-10-0-ubuntu-18-04-and-tensorflow-gpu-1-13) his answer was very useful to me. and with this command we installed cuda 10.0 and CUDNN 7.6
+- `sudo apt-get install --no-install-recommends \
+    cuda-10-0 \
+    libcudnn7=7.6.0.64-1+cuda10.0  \
+    libcudnn7-dev=7.6.0.64-1+cuda10.0`
+    
+- **Note: I did this after I installed every thing, in the end**
+Now we need our machine to see those versions as defaults, and this will be with add the default path of the NVIDIA (R) Cuda compiler driver path into `.bashrc` file in home directory and by adding those lines in the end:
+```
+export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64\{LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+```
+save the file.
+- test it :
+    - `$ nvcc --version`
+    
+    ![nvcc](src/nvcc.png)
+
+## 4- Install OpenCV (latest version), Cmake, gcc and g++
+I followed the Documentation of [Open-CV](https://docs.opencv.org/master/d2/de6/tutorial_py_setup_in_ubuntu.html)
+
+- install cmake, gcc and g++:
+    `$ sudo apt-get install cmake`
+    `$ sudo apt-get install gcc g++`
+
+- I'm using python3:
+    `$ sudo apt-get install python3-dev python3-numpy`
+     
+- Next we need GTK support for GUI features, Camera support (v4l), Media Support (ffmpeg, gstreamer) etc.
+    `$ sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev`
+    `$ sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev`
+    
+- to support gtk3:
+    `$ sudo apt-get install libgtk-3-dev`
+
+- Downloading and install OpenCV:
+    `$ sudo apt-get install git`
+    `$ git clone https://github.com/opencv/opencv.git`
+    `$ cmake ../`
+    `$ make`
+    `$ sudo make install`
+    
+- test it:
+    `$ opencv_version`
+    
+## 5- Installing YoloV4
