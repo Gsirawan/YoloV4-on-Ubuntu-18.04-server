@@ -107,8 +107,7 @@ I followed the Documentation of [Open-CV](https://docs.opencv.org/master/d2/de6/
 
 ![errors](src/errors.png)
 
-and by following the fix we  deleted this part in darknet source code `network_kernels.o` file and in my case was in line 706: **,cudaStreamCaorureModeGlobal** 
-[source](https://www.programmersought.com/article/57107862446/)
+and by following the fix we deleted a part of darknet source code. Specifically in `network_kernels.o` file, in my case was in line 706: (**,cudaStreamCaorureModeGlobal**) for more details: [source](https://www.programmersought.com/article/57107862446/)
 
 I repeated the step `$ make` and we got the expected results:
 
