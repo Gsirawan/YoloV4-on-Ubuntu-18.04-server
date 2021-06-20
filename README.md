@@ -40,6 +40,7 @@ I want to share what we did to make it easier for you :), Because Nvidia did not
   - ` $ sudo reboot `
 - Check That GPUs are visible and the install has been successful.
     - ` $ nvidia-smi `
+    
      ![driver](src/driver.png)
 
 **note: you will see the latest version of Cuda listed, just ignore this for now.**
