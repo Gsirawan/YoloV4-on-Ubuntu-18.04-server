@@ -103,7 +103,7 @@ I followed the Documentation of [Open-CV](https://docs.opencv.org/master/d2/de6/
 - The moment of truth is here:
     `$ make`
     
-**Note: We tried before this method a different approachs, and we get always an error related to cudnn and coda. but with this method you should get 2 errors like this one :D**
+**Note: We tried before this method a different approachs, and we always get an error related to cudnn and coda. but with this method you should get 2 errors like this one :D**
 
 ![errors](src/errors.png)
 
