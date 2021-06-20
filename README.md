@@ -91,3 +91,35 @@ I followed the Documentation of [Open-CV](https://docs.opencv.org/master/d2/de6/
     `$ opencv_version`
     
 ## 5- Installing YoloV4
+- You can download the YOLO v4 using following command:
+    `$ git clone https://github.com/AlexeyAB/darknet`
+    
+- edit Makefile in the darknet folder :
+    `$ nano Makefile -l`
+    and change 0s values to 1 in: 
+        GPU=1
+        CUDNN=1
+        OPENCV=1
+- The moment of truth is here:
+    `$ make`
+    
+**Note: We tried before this method a different approachs, and we get always an error related to cudnn and coda. but with this method you should get 2 errors like this one :D**
+
+![errors](src/errors.png)
+
+and by following the fix we  deleted this part in darknet source code `network_kernels.o` file and in my case was in line 706: **,cudaStreamCaorureModeGlobal** 
+[source](https://www.programmersought.com/article/57107862446/)
+
+I repeated the step `$ make` and we got the expected results:
+
+![no-error](src/no-error.png)
+
+and:
+
+![yolo](src/yolo.png)
+
+every things working as should be.
+
+Now: you can download any model you want for testing or train your own model... good luck :)
+`$ ./darknet detect cfg/yolov4.cfg yolov4.weights data/image.jpg`
+
