@@ -117,7 +117,7 @@ and:
 
 ![yolo](src/yolo.png)
 
-every things working as should be.
+every things working as it should be.
 
 Now: you can download any model you want for testing or train your own model... good luck :)
 `$ ./darknet detect cfg/yolov4.cfg yolov4.weights data/image.jpg`
